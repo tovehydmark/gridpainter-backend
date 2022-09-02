@@ -32,7 +32,10 @@ const tileList = [];
 
 const io = new Server(server, {
   cors: {
-    origin: 'https://gridpainter-grupp4.herokuapp.com/',
+    origin: [
+      'http://localhost:3000',
+      'https://tovehydmark.github.io/gridpainter-frontend',
+    ],
     methods: ['GET', 'POST'],
     // credentials: true,
   },
