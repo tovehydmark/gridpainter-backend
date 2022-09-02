@@ -37,7 +37,7 @@ const io = new Server(server, {
       'https://tovehydmark.github.io/gridpainter-frontend',
     ],
     methods: ['GET', 'POST'],
-    // credentials: true,
+    credentials: true,
   },
 });
 
