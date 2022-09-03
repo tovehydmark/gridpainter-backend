@@ -210,9 +210,9 @@ app.post('/', function (req, res) {
   }
 });
 
-// app.get('/', function (req, res) {
-//   res.sendFile(path.resolve('public/build/index.html'));
-// });
+app.get('/', function (req, res) {
+  res.sendFile(path.resolve('public/build/index.html'));
+});
 
 app.get('/saved_images', function (req, res) {
   // res.header('Access-Control-Allow-Origin', '*');
