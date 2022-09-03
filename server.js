@@ -46,7 +46,7 @@ const io = new Server(server, {
       // '*',
       'http://localhost:3000',
       // 'https://tovehydmark.github.io/gridpainter-frontend',
-      'https://tovehydmark.github.io/',
+      'https://tovehydmark.github.io',
     ],
     methods: ['GET', 'POST'],
     credentials: true,
