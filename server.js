@@ -43,9 +43,10 @@ const tileList = [];
 const io = new Server(server, {
   cors: {
     origin: [
-      '*',
+      // '*',
       'http://localhost:3000',
-      'https://tovehydmark.github.io/gridpainter-frontend',
+      // 'https://tovehydmark.github.io/gridpainter-frontend',
+      'https://tovehydmark.github.io/',
     ],
     methods: ['GET', 'POST'],
     credentials: true,
