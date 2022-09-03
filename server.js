@@ -211,6 +211,8 @@ app.get('/', function (req, res) {
 });
 
 app.get('/saved_images', function (req, res) {
+  res.header('Access-Control-Allow-Origin', '*');
+
   req.app.locals.db
     .collection('saved_images')
     .find()
@@ -221,6 +223,8 @@ app.get('/saved_images', function (req, res) {
 });
 
 app.get('/default', function (req, res) {
+  res.header('Access-Control-Allow-Origin', '*');
+
   req.app.locals.db
     .collection('default_images')
     .aggregate([{ $sample: { size: 1 } }])
