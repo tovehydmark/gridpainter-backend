@@ -45,11 +45,12 @@ const io = new Server(server, {
     origin: [
       // '*',
       'http://localhost:3000',
-      // 'https://tovehydmark.github.io/gridpainter-frontend',
+      'https://tovehydmark.github.io/gridpainter-frontend',
       'https://tovehydmark.github.io',
+      'https://tovehydmark.github.io/gridpainter-frontend/#/artGallery',
     ],
     methods: ['GET', 'POST'],
-    // credentials: true,
+    credentials: true,
   },
 });
 
