@@ -49,7 +49,7 @@ const io = new Server(server, {
       'https://tovehydmark.github.io',
     ],
     methods: ['GET', 'POST'],
-    credentials: true,
+    // credentials: true,
   },
 });
 
