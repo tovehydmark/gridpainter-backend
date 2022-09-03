@@ -6,17 +6,17 @@ const { Server } = require('socket.io');
 const server = http.createServer(app);
 const path = require('path');
 
-app.use(cors());
-// app.use(
-//   cors({
-//     origin: [
-//       'http://localhost:3000',
-//       'https://tovehydmark.github.io/gridpainter-frontend',
-//     ],
-//     methods: ['GET', 'POST'],
-//     credentials: true,
-//   })
-// );
+// app.use(cors());
+app.use(
+  cors({
+    origin: [
+      'http://localhost:3000',
+      'https://tovehydmark.github.io/gridpainter-frontend',
+    ],
+    methods: ['GET', 'POST'],
+    credentials: true,
+  })
+);
 // app.use(express.static(path.resolve(__dirname, '/../../frontend/build')));
 require('dotenv').config();
 app.use(express.json());
@@ -38,18 +38,18 @@ MongoClient.connect(process.env.MONGO_URI, {
 
 const tileList = [];
 
-const io = new Server(server);
+// const io = new Server(server);
 
-// const io = new Server(server, {
-//   cors: {
-//     origin: [
-//       'http://localhost:3000',
-//       'https://tovehydmark.github.io/gridpainter-frontend',
-//     ],
-//     methods: ['GET', 'POST'],
-//     credentials: true,
-//   },
-// });
+const io = new Server(server, {
+  cors: {
+    origin: [
+      'http://localhost:3000',
+      'https://tovehydmark.github.io/gridpainter-frontend',
+    ],
+    methods: ['GET', 'POST'],
+    credentials: true,
+  },
+});
 
 server.listen(process.env.PORT, () => {
   console.log(`Server running on ${process.env.PORT}`);
@@ -209,9 +209,9 @@ app.post('/', function (req, res) {
   }
 });
 
-app.get('/', function (req, res) {
-  res.sendFile(path.resolve('public/build/index.html'));
-});
+// app.get('/', function (req, res) {
+//   res.sendFile(path.resolve('public/build/index.html'));
+// });
 
 app.get('/saved_images', function (req, res) {
   // res.header('Access-Control-Allow-Origin', '*');
