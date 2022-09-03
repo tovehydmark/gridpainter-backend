@@ -43,11 +43,11 @@ const tileList = [];
 const io = new Server(server, {
   cors: {
     origin: [
-      // '*',
+      // '*', //Tillagt för att få bort cors
       'http://localhost:3000',
       'https://tovehydmark.github.io/gridpainter-frontend',
-      'https://tovehydmark.github.io',
-      'https://tovehydmark.github.io/gridpainter-frontend/#/artGallery',
+      'https://tovehydmark.github.io', //Tillagt för att få bort cors
+      'https://tovehydmark.github.io/gridpainter-frontend/#/artGallery', //Tillagt för att få bort cors
     ],
     methods: ['GET', 'POST'],
     credentials: true,
@@ -148,8 +148,6 @@ io.on('connection', function (socket) {
       }
     }
 
-    console.log('tileList: ', tileList);
-
     io.emit('tileClicked', tileList);
   });
 
@@ -217,7 +215,7 @@ app.get('/', function (req, res) {
 });
 
 app.get('/saved_images', function (req, res) {
-  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Origin', '*'); //Tillagt för att få bort cors
 
   req.app.locals.db
     .collection('saved_images')
@@ -229,7 +227,7 @@ app.get('/saved_images', function (req, res) {
 });
 
 app.get('/default', function (req, res) {
-  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Origin', '*'); //Tillagt för att få bort cors
 
   req.app.locals.db
     .collection('default_images')
