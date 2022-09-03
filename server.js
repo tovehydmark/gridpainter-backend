@@ -16,7 +16,7 @@ app.use(
     credentials: true,
   })
 );
-app.use(express.static(path.resolve(__dirname, '/../../frontend/build')));
+// app.use(express.static(path.resolve(__dirname, '/../../frontend/build')));
 require('dotenv').config();
 app.use(express.json());
 app.use(
@@ -211,7 +211,7 @@ app.get('/', function (req, res) {
 });
 
 app.get('/saved_images', function (req, res) {
-  res.header('Access-Control-Allow-Origin', '*');
+  // res.header('Access-Control-Allow-Origin', '*');
 
   req.app.locals.db
     .collection('saved_images')
@@ -223,7 +223,7 @@ app.get('/saved_images', function (req, res) {
 });
 
 app.get('/default', function (req, res) {
-  res.header('Access-Control-Allow-Origin', '*');
+  // res.header('Access-Control-Allow-Origin', '*');
 
   req.app.locals.db
     .collection('default_images')
