@@ -6,7 +6,16 @@ const { Server } = require('socket.io');
 const server = http.createServer(app);
 const path = require('path');
 
-app.use(cors());
+app.use(
+  cors({
+    origin: [
+      'http://localhost:3000',
+      'https://tovehydmark.github.io/gridpainter-frontend',
+    ],
+    // methods: ['GET', 'POST'],
+    // credentials: true,
+  })
+);
 app.use(express.static(path.resolve(__dirname, '/../../frontend/build')));
 require('dotenv').config();
 app.use(express.json());
