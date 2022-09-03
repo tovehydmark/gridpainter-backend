@@ -6,11 +6,9 @@ const { Server } = require('socket.io');
 const server = http.createServer(app);
 const path = require('path');
 
-app.use(express.static(path.resolve(__dirname, '/../../frontend/build')));
-console.log('dirname: ', __dirname);
-console.log('tetett: ', path.resolve(__dirname, '/../frontend/build'));
-require('dotenv').config();
 app.use(cors());
+app.use(express.static(path.resolve(__dirname, '/../../frontend/build')));
+require('dotenv').config();
 app.use(express.json());
 app.use(
   express.urlencoded({
@@ -37,7 +35,7 @@ const io = new Server(server, {
       'https://tovehydmark.github.io/gridpainter-frontend',
     ],
     methods: ['GET', 'POST'],
-    credentials: true,
+    // credentials: true,
   },
 });
 
