@@ -12,8 +12,8 @@ app.use(
       'http://localhost:3000',
       'https://tovehydmark.github.io/gridpainter-frontend',
     ],
-    // methods: ['GET', 'POST'],
-    // credentials: true,
+    methods: ['GET', 'POST'],
+    credentials: true,
   })
 );
 app.use(express.static(path.resolve(__dirname, '/../../frontend/build')));
@@ -44,7 +44,7 @@ const io = new Server(server, {
       'https://tovehydmark.github.io/gridpainter-frontend',
     ],
     methods: ['GET', 'POST'],
-    // credentials: true,
+    credentials: true,
   },
 });
 
