@@ -217,7 +217,7 @@ app.get('/', function (req, res) {
 });
 
 app.get('/saved_images', function (req, res) {
-  // res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Origin', '*');
 
   req.app.locals.db
     .collection('saved_images')
@@ -229,7 +229,7 @@ app.get('/saved_images', function (req, res) {
 });
 
 app.get('/default', function (req, res) {
-  // res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Origin', '*');
 
   req.app.locals.db
     .collection('default_images')
