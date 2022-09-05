@@ -73,37 +73,43 @@ io.on('connection', function (socket) {
     io.emit('message', msg);
   });
 
+  // const convertedToArray = Array.from(io.sockets.adapter.rooms);
+  // const filteredRooms = convertedToArray.filter(
+  //   (room) => !room[1].has(room[0])
+  // );
+  // const rooms = filteredRooms.map((roomArray) => roomArray[0]);
+
+  // const roomsWithSocketIDs = filteredRooms.map((roomArray) => {
+  //   let roomSocket = {
+  //     room: roomArray[0],
+  //     users: Array.from(roomArray[1]),
+  //   };
+  //   return roomSocket;
+  // });
   socket.on('join-game', function (usernameAndRoom) {
-    socket.join(usernameAndRoom.room);
-    console.log('User joined room: ' + usernameAndRoom.room);
+    socket.join(usernameAndRoom.roomName);
 
-    const convertedToArray = Array.from(io.sockets.adapter.rooms);
-    const filteredRooms = convertedToArray.filter(
-      (room) => !room[1].has(room[0])
-    );
-    const rooms = filteredRooms.map((roomArray) => roomArray[0]);
+    let playersInRoom = io.sockets.adapter.rooms.get(
+      usernameAndRoom.roomName
+    ).size;
 
-    const roomsWithSocketIDs = filteredRooms.map((roomArray) => {
-      let roomSocket = {
-        room: roomArray[0],
-        users: Array.from(roomArray[1]),
-      };
-      return roomSocket;
-    });
+    let response = '';
 
-    let response = 'avaliable';
+    if (playersInRoom < 4 && playersInRoom > 0) {
+      response = 'available';
+    }
 
-    if (roomsWithSocketIDs[0].users.length > 4) {
-      console.log(roomsWithSocketIDs);
+    if (playersInRoom > 4) {
+      console.log(playersInRoom);
       response = 'full';
     }
 
-    if (roomsWithSocketIDs[0].users.length === 4) {
-      console.log(roomsWithSocketIDs);
+    if (playersInRoom === 4) {
+      console.log(playersInRoom);
       response = 'getImage';
     }
 
-    io.emit('joinedRoom', response);
+    io.to(socket.id).emit('joinedRoom', response);
     io.to(socket.id).emit('userData', colors[count - 1]);
   });
 
