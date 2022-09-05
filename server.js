@@ -70,22 +70,9 @@ io.on('connection', function (socket) {
   });
 
   socket.on('message', function (msg) {
-    io.emit('message', msg);
+    io.to(msg.roomName).emit('message', msg);
   });
 
-  // const convertedToArray = Array.from(io.sockets.adapter.rooms);
-  // const filteredRooms = convertedToArray.filter(
-  //   (room) => !room[1].has(room[0])
-  // );
-  // const rooms = filteredRooms.map((roomArray) => roomArray[0]);
-
-  // const roomsWithSocketIDs = filteredRooms.map((roomArray) => {
-  //   let roomSocket = {
-  //     room: roomArray[0],
-  //     users: Array.from(roomArray[1]),
-  //   };
-  //   return roomSocket;
-  // });
   socket.on('join-game', function (usernameAndRoom) {
     socket.join(usernameAndRoom.roomName);
 
@@ -97,39 +84,6 @@ io.on('connection', function (socket) {
 
     if (playersInRoom < 4 && playersInRoom > 0) {
       response = 'available';
-
-      // const RandomColorIterator = () => {
-      //   let colors = ['red', 'blue', 'green', 'yellow'];
-
-      //   return {
-      //     next: () => {
-      //       // At least we return a color
-      //       let color = 'brown';
-
-      //       // If all colors were previously consumed, we won't need
-      //       // to pick one randomly
-      //       if (colors.length > 0) {
-      //         // We select randomly an index from the colors array
-      //         // const index = Math.floor(colors.length * Math.random());
-      //         const index = colors.length - 1;
-
-      //         // We store the color to return
-      //         color = colors[index];
-
-      //         // We remove it from the array
-      //         colors.splice(index, 1);
-      //         console.log('colors längd: ', colors.length);
-      //       }
-
-      //       return color;
-      //     },
-      //   };
-      // };
-
-      // const userColor = RandomColorIterator();
-      // console.log('userColor: ', userColor.next());
-
-      // io.to(socket.id).emit('userData', 'färgHär');
     }
 
     if (playersInRoom > 4) {
