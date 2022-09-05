@@ -97,6 +97,39 @@ io.on('connection', function (socket) {
 
     if (playersInRoom < 4 && playersInRoom > 0) {
       response = 'available';
+
+      // const RandomColorIterator = () => {
+      //   let colors = ['red', 'blue', 'green', 'yellow'];
+
+      //   return {
+      //     next: () => {
+      //       // At least we return a color
+      //       let color = 'brown';
+
+      //       // If all colors were previously consumed, we won't need
+      //       // to pick one randomly
+      //       if (colors.length > 0) {
+      //         // We select randomly an index from the colors array
+      //         // const index = Math.floor(colors.length * Math.random());
+      //         const index = colors.length - 1;
+
+      //         // We store the color to return
+      //         color = colors[index];
+
+      //         // We remove it from the array
+      //         colors.splice(index, 1);
+      //         console.log('colors längd: ', colors.length);
+      //       }
+
+      //       return color;
+      //     },
+      //   };
+      // };
+
+      // const userColor = RandomColorIterator();
+      // console.log('userColor: ', userColor.next());
+
+      // io.to(socket.id).emit('userData', 'färgHär');
     }
 
     if (playersInRoom > 4) {
@@ -105,14 +138,24 @@ io.on('connection', function (socket) {
       response = 'full';
     }
 
+    let socketsInRoom = [
+      ...io.sockets.adapter.rooms.get(usernameAndRoom.roomName),
+    ];
+    console.log(socketsInRoom);
+
     if (playersInRoom === 4) {
-      console.log(playersInRoom);
+      for (let i = 0; i < colors.length; i++) {
+        // for (let i = 0; i < socketsInRoom.length; i++) {
+        io.to(socketsInRoom[i]).emit('userData', colors[i]);
+        // }
+      }
+
       response = 'getImage';
       io.emit('joinedRoom', response);
     }
 
     io.to(socket.id).emit('joinedRoom', response);
-    io.to(socket.id).emit('userData', colors[count - 1]);
+    // io.to(socket.id).emit('userData', colors[count - 1]);
   });
 
   socket.on('loadIn', function () {
