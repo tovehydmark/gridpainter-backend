@@ -101,12 +101,14 @@ io.on('connection', function (socket) {
 
     if (playersInRoom > 4) {
       console.log(playersInRoom);
+
       response = 'full';
     }
 
     if (playersInRoom === 4) {
       console.log(playersInRoom);
       response = 'getImage';
+      io.emit('joinedRoom', response);
     }
 
     io.to(socket.id).emit('joinedRoom', response);
