@@ -156,7 +156,7 @@ io.on('connection', function (socket) {
   });
 
   socket.on('canPaint', function () {
-    io.emit('canPaint');
+    io.emit('canPaint', true);
   });
 
   let timerIsStarted = false;
@@ -169,6 +169,11 @@ io.on('connection', function (socket) {
       let timer = 10;
       const interval = setInterval(() => {
         timer--;
+
+        if(timer == 1){
+            io.emit('canPaint', false);
+        }
+
         if (timer <= 0) {
             socket.emit('timerDone');
             socket.emit('enableSaveButton');
