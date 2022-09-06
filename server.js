@@ -170,14 +170,13 @@ io.on('connection', function (socket) {
       const interval = setInterval(() => {
         timer--;
         if (timer <= 0) {
-            socket.emit('timerDone');
-
+            io.emit('timerDone');
+            io.emit('enableSaveButton');
             tileList = [];
 
             clearInterval(interval);
         }
-        socket.emit('timer', timer);
-        // console.log(timer);
+        io.emit('timer', timer);
       }, 1000);
     }
   }
@@ -193,11 +192,16 @@ io.on('connection', function (socket) {
           gameTimer();
           clearInterval(interval);
         }
-        socket.emit('countdownTimer', timer);
-        // console.log(timer);
+        io.emit('countdownTimer', timer);
       }, 1000);
     }
   });
+
+  socket.on('disableSaveButtonClient', function(){
+    console.log('disableSaveButtonClient');
+    io.emit('disableSaveButton');
+  });
+  
 });
 
 app.post('/', function (req, res) {
