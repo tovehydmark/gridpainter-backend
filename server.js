@@ -170,7 +170,7 @@ io.on('connection', function (socket) {
     if (timerIsStarted === false) {
       timerIsStarted = true;
 
-      let timer = 2;
+      let timer = 30;
       const interval = setInterval(() => {
         timer--;
 
