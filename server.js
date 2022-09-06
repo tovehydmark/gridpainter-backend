@@ -36,7 +36,7 @@ MongoClient.connect(process.env.MONGO_URI, {
   app.locals.db = client.db('gridpainter');
 });
 
-const tileList = [];
+let tileList = [];
 
 // const io = new Server(server);
 
@@ -70,15 +70,13 @@ io.on('connection', function (socket) {
   });
 
   socket.on('message', function (msg) {
-    io.to(msg.roomName).emit('message', msg);
+    io.to('room0').emit('message', msg);
   });
 
-  socket.on('join-game', function (usernameAndRoom) {
-    socket.join(usernameAndRoom.roomName);
+  socket.on('join-game', function () {
+    socket.join('room0');
 
-    let playersInRoom = io.sockets.adapter.rooms.get(
-      usernameAndRoom.roomName
-    ).size;
+    let playersInRoom = io.sockets.adapter.rooms.get('room0').size;
 
     let response = '';
 
@@ -93,9 +91,8 @@ io.on('connection', function (socket) {
     }
 
     let socketsInRoom = [
-      ...io.sockets.adapter.rooms.get(usernameAndRoom.roomName),
+      ...io.sockets.adapter.rooms.get('room0'),
     ];
-    console.log(socketsInRoom);
 
     if (playersInRoom === 4) {
       for (let i = 0; i < colors.length; i++) {
@@ -167,12 +164,15 @@ io.on('connection', function (socket) {
     if (timerIsStarted === false) {
       timerIsStarted = true;
 
-      let timer = 10;
+      let timer = 30;
       const interval = setInterval(() => {
         timer--;
         if (timer <= 0) {
-          socket.emit('timerDone');
-          clearInterval(interval);
+            socket.emit('timerDone');
+
+            tileList = [];
+
+            clearInterval(interval);
         }
         socket.emit('timer', timer);
         // console.log(timer);
