@@ -43,7 +43,7 @@ let tileList = [];
 const io = new Server(server, {
   cors: {
     origin: [
-      // '*', //Tillagt för att få bort cors
+      '*', //Tillagt för att få bort cors
       'http://localhost:3000',
       'https://tovehydmark.github.io/gridpainter-frontend',
       'https://tovehydmark.github.io', //Tillagt för att få bort cors
@@ -164,7 +164,7 @@ io.on('connection', function (socket) {
     if (timerIsStarted === false) {
       timerIsStarted = true;
 
-      let timer = 30;
+      let timer = 10;
       const interval = setInterval(() => {
         timer--;
         if (timer <= 0) {
