@@ -128,7 +128,7 @@ io.on('connection', function (socket) {
 
   socket.on('created_image', function (img) {
     console.log('created image',img);
-    io.emit('created_image', img);   
+    socket.emit('created_image', img); //här stod det io.emit förut
   });
 
   socket.on('clickedOnTile', function (tile) {
@@ -174,13 +174,14 @@ io.on('connection', function (socket) {
       const interval = setInterval(() => {
         timer--;
 
-        if(timer == 0){
+        if(timer === 0){
             io.emit('canPaint', false);
         }
 
         if (timer === -1) {
-            socket.emit('timerDone'); //denna loopar/lagger när det står io.emit istället för socket.emit
+            io.emit('timerDone'); //denna loopar/lagger när det står io.emit istället för socket.emit
                                       //när denna är socket.emit istället för io.emit så syns inte gameOver grejen med countdown till disconnect
+
             io.emit('enableSaveButton');
             tileList = [];
 
