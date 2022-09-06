@@ -170,11 +170,11 @@ io.on('connection', function (socket) {
       const interval = setInterval(() => {
         timer--;
 
-        if(timer == 1){
+        if(timer == 0){
             io.emit('canPaint', false);
         }
 
-        if (timer <= 0) {
+        if (timer <= -1) {
             socket.emit('timerDone');
             socket.emit('enableSaveButton');
             tileList = [];
