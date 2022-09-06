@@ -99,32 +99,32 @@ io.on('connection', function (socket) {
     if (playersInRoom === 4) {
       for (let i = 0; i < colors.length; i++) {
         // for (let i = 0; i < socketsInRoom.length; i++) {
-            socket.to(socketsInRoom[i]).emit('userData', colors[i]);
+        io.to(socketsInRoom[i]).emit('userData', colors[i]);
         // }
       }
 
       response = 'getImage';
-      socket.emit('joinedRoom', response);
+      io.emit('joinedRoom', response);
     }
 
-    socket.to(socket.id).emit('joinedRoom', response);
+    io.to(socket.id).emit('joinedRoom', response);
     // io.to(socket.id).emit('userData', colors[count - 1]);
   });
 
   socket.on('loadIn', function () {
-    socket.emit('loadIn', tileList);
+    io.emit('loadIn', tileList);
   });
 
   socket.on('randomImageFromServer', function (img) {
-    socket.emit('randomImageFromServer', img);
+    io.emit('randomImageFromServer', img);
   });
 
   socket.on('default_image', function (img) {
-    socket.emit('default_image', img);
+    io.emit('default_image', img);
   });
 
   socket.on('created_image', function (img) {
-    socket.emit('created_image', img);
+    io.emit('created_image', img);
   });
 
   socket.on('clickedOnTile', function (tile) {
@@ -152,11 +152,11 @@ io.on('connection', function (socket) {
       }
     }
 
-    socket.emit('tileClicked', tileList);
+    io.emit('tileClicked', tileList);
   });
 
   socket.on('canPaint', function () {
-    socket.emit('canPaint');
+    io.emit('canPaint');
   });
 
   let timerIsStarted = false;
