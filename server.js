@@ -104,7 +104,7 @@ io.on('connection', function (socket) {
       }
 
       response = 'getImage';
-      io.emit('joinedRoom', response);
+      socket.emit('joinedRoom', response);
     }
 
     io.to(socket.id).emit('joinedRoom', response);
@@ -112,19 +112,19 @@ io.on('connection', function (socket) {
   });
 
   socket.on('loadIn', function () {
-    io.emit('loadIn', tileList);
+    socket.emit('loadIn', tileList);
   });
 
   socket.on('randomImageFromServer', function (img) {
-    io.emit('randomImageFromServer', img);
+    socket.emit('randomImageFromServer', img);
   });
 
   socket.on('default_image', function (img) {
-    io.emit('default_image', img);
+    socket.emit('default_image', img);
   });
 
   socket.on('created_image', function (img) {
-    io.emit('created_image', img);
+    socket.emit('created_image', img);
   });
 
   socket.on('clickedOnTile', function (tile) {
@@ -156,7 +156,7 @@ io.on('connection', function (socket) {
   });
 
   socket.on('canPaint', function () {
-    io.emit('canPaint');
+    socket.emit('canPaint');
   });
 
   let timerIsStarted = false;
@@ -170,13 +170,13 @@ io.on('connection', function (socket) {
       const interval = setInterval(() => {
         timer--;
         if (timer <= 0) {
-            io.emit('timerDone');
-            io.emit('enableSaveButton');
+            socket.emit('timerDone');
+            socket.emit('enableSaveButton');
             tileList = [];
 
             clearInterval(interval);
         }
-        io.emit('timer', timer);
+        socket.emit('timer', timer);
       }, 1000);
     }
   }
@@ -192,14 +192,14 @@ io.on('connection', function (socket) {
           gameTimer();
           clearInterval(interval);
         }
-        io.emit('countdownTimer', timer);
+        socket.emit('countdownTimer', timer);
       }, 1000);
     }
   });
 
   socket.on('disableSaveButtonClient', function(){
     console.log('disableSaveButtonClient');
-    io.emit('disableSaveButton');
+    socket.emit('disableSaveButton');
   });
   
 });
