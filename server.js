@@ -104,7 +104,7 @@ io.on('connection', function (socket) {
       }
 
       response = 'getImage';
-      io.emit('joinedRoom', response);
+      socket.emit('joinedRoom', response);
     }
 
     io.to(socket.id).emit('joinedRoom', response);
@@ -120,11 +120,15 @@ io.on('connection', function (socket) {
   });
 
   socket.on('default_image', function (img) {
+    console.log('default image',img);
     io.emit('default_image', img);
   });
 
+
+
   socket.on('created_image', function (img) {
-    io.emit('created_image', img);
+    console.log('created image',img);
+    io.emit('created_image', img);   
   });
 
   socket.on('clickedOnTile', function (tile) {
@@ -166,7 +170,7 @@ io.on('connection', function (socket) {
     if (timerIsStarted === false) {
       timerIsStarted = true;
 
-      let timer = 10;
+      let timer = 2;
       const interval = setInterval(() => {
         timer--;
 
@@ -174,14 +178,15 @@ io.on('connection', function (socket) {
             io.emit('canPaint', false);
         }
 
-        if (timer <= -1) {
-            socket.emit('timerDone');
-            socket.emit('enableSaveButton');
+        if (timer === -1) {
+            socket.emit('timerDone'); //denna loopar/lagger när det står io.emit istället för socket.emit
+                                      //när denna är socket.emit istället för io.emit så syns inte gameOver grejen med countdown till disconnect
+            io.emit('enableSaveButton');
             tileList = [];
 
             clearInterval(interval);
         }
-        socket.emit('timer', timer);
+        io.emit('timer', timer);
       }, 1000);
     }
   }
@@ -197,7 +202,7 @@ io.on('connection', function (socket) {
           gameTimer();
           clearInterval(interval);
         }
-        socket.emit('countdownTimer', timer);
+        io.emit('countdownTimer', timer);
       }, 1000);
     }
   });
