@@ -12,6 +12,8 @@ app.use(
     origin: [
       'http://localhost:3000',
       'https://tovehydmark.github.io/gridpainter-frontend',
+      'https://tovehydmark.github.io',
+      'https://tovehydmark.github.io/gridpainter-frontend/#/artGallery'
     ],
     methods: ['GET', 'POST'],
     credentials: true,
@@ -43,7 +45,7 @@ let tileList = [];
 const io = new Server(server, {
   cors: {
     origin: [
-      '*', //Tillagt för att få bort cors
+      //'*', //Tillagt för att få bort cors
       'http://localhost:3000',
       'https://tovehydmark.github.io/gridpainter-frontend',
       'https://tovehydmark.github.io', //Tillagt för att få bort cors
