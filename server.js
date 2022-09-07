@@ -163,7 +163,7 @@ io.on('connection', function (socket) {
     io.emit('canPaint', true);
   });
 
-  
+
   let timerIsStarted = false;
   let countdownTimerIsStarted = false;
 
@@ -171,7 +171,7 @@ io.on('connection', function (socket) {
     if (timerIsStarted === false) {
       timerIsStarted = true;
 
-      let timer = 5;
+      let timer = 30;
       const interval = setInterval(() => {
         timer--;
 
