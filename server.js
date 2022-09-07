@@ -163,6 +163,7 @@ io.on('connection', function (socket) {
     io.emit('canPaint', true);
   });
 
+
   let timerIsStarted = false;
   let countdownTimerIsStarted = false;
 
