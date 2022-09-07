@@ -62,6 +62,9 @@ server.listen(process.env.PORT, () => {
 
 let colors = ['red', 'blue', 'green', 'yellow'];
 
+let timerIsStarted = false;
+let countdownTimerIsStarted = false;
+
 //Socket.io
 io.on('connection', function (socket) {
   const count = io.engine.clientsCount;
@@ -164,8 +167,7 @@ io.on('connection', function (socket) {
   });
 
 
-  let timerIsStarted = false;
-  let countdownTimerIsStarted = false;
+
 
   function gameTimer() {
     if (timerIsStarted === false) {
@@ -185,6 +187,7 @@ io.on('connection', function (socket) {
 
             io.emit('enableSaveButton');
             tileList = [];
+            timerIsStarted = false;
 
             clearInterval(interval);
         }
@@ -202,6 +205,7 @@ io.on('connection', function (socket) {
         timer--;
         if (timer <= 0) {
           gameTimer();
+          countdownTimerIsStarted = false;
           clearInterval(interval);
         }
         io.emit('countdownTimer', timer);
