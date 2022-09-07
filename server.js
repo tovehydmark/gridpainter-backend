@@ -4,9 +4,7 @@ const http = require('http');
 const cors = require('cors');
 const { Server } = require('socket.io');
 const server = http.createServer(app);
-const path = require('path');
 
-// app.use(cors());
 app.use(
   cors({
     origin: [
@@ -19,7 +17,6 @@ app.use(
     credentials: true,
   })
 );
-app.use(express.static(path.resolve(__dirname, '/../../frontend/build')));
 require('dotenv').config();
 app.use(express.json());
 app.use(
@@ -40,16 +37,13 @@ MongoClient.connect(process.env.MONGO_URI, {
 
 let tileList = [];
 
-// const io = new Server(server);
-
 const io = new Server(server, {
   cors: {
     origin: [
-      //'*', //Tillagt för att få bort cors
       'http://localhost:3000',
       'https://tovehydmark.github.io/gridpainter-frontend',
-      'https://tovehydmark.github.io', //Tillagt för att få bort cors
-      'https://tovehydmark.github.io/gridpainter-frontend/#/artGallery', //Tillagt för att få bort cors
+      'https://tovehydmark.github.io', 
+      'https://tovehydmark.github.io/gridpainter-frontend/#/artGallery',
     ],
     methods: ['GET', 'POST'],
     credentials: true,
@@ -89,9 +83,8 @@ io.on('connection', function (socket) {
       response = 'available';
     }
 
+    //Skickar full som respons vilket triggar alert "spel fullt" om man försöker logga in 5
     if (playersInRoom > 4) {
-      console.log(playersInRoom);
-
       response = 'full';
     }
 
@@ -99,11 +92,10 @@ io.on('connection', function (socket) {
       ...io.sockets.adapter.rooms.get('room0'),
     ];
 
+    //Spelarnas färger tilldelas då 4 spelare connectat och bild från databasen slumpas
     if (playersInRoom === 4) {
       for (let i = 0; i < colors.length; i++) {
-        // for (let i = 0; i < socketsInRoom.length; i++) {
         io.to(socketsInRoom[i]).emit('userData', colors[i]);
-        // }
       }
 
       response = 'getImage';
@@ -111,32 +103,31 @@ io.on('connection', function (socket) {
     }
 
     io.to(socket.id).emit('joinedRoom', response);
-    // io.to(socket.id).emit('userData', colors[count - 1]);
   });
 
+  //Skickar uppdaterad tilelist till alla spelare 
   socket.on('loadIn', function () {
     io.emit('loadIn', tileList);
   });
 
+  //Hämtar och skickar bild från servern till alla spelare
   socket.on('randomImageFromServer', function (img) {
     io.emit('randomImageFromServer', img);
   });
 
+  //Sparar randomImageFromServer till rättningsfunktionen som den ritade bilden ska jämföras med
   socket.on('default_image', function (img) {
-    console.log('default image',img);
     io.emit('default_image', img);
   });
 
-
-
+  //Sparar den ritade bilden + emittar till rättningsfunktionen
   socket.on('created_image', function (img) {
-    console.log('created image',img);
-    socket.emit('created_image', img); //här stod det io.emit förut
+    socket.emit('created_image', img); 
   });
 
+  //Skickar array med uppdaterade färger mellan spelare
   socket.on('clickedOnTile', function (tile) {
-    //Om tileList.length är 0 pushas första tile in i listan
-    if (tileList.length == 0) {
+    if (tileList.length === 0) {
       tileList.push({ pixel: tile.pixel, color: tile.color });
     }
 
@@ -162,13 +153,13 @@ io.on('connection', function (socket) {
     io.emit('tileClicked', tileList);
   });
 
+  //Gör att spelare kan börja måla
   socket.on('canPaint', function () {
     io.emit('canPaint', true);
   });
 
-
-
-
+  //Timer som räknar ned när spelet startar. 
+  //Styr så spelare kan måla, så de inte kan måla när tiden är ute, aktiverar sparaknappen
   function gameTimer() {
     if (timerIsStarted === false) {
       timerIsStarted = true;
@@ -182,9 +173,7 @@ io.on('connection', function (socket) {
         }
 
         if (timer === -1) {
-            io.emit('timerDone'); //denna loopar/lagger när det står io.emit istället för socket.emit
-                                      //när denna är socket.emit istället för io.emit så syns inte gameOver grejen med countdown till disconnect
-
+            io.emit('timerDone');
             io.emit('enableSaveButton');
             tileList = [];
             timerIsStarted = false;
@@ -195,7 +184,8 @@ io.on('connection', function (socket) {
       }, 1000);
     }
   }
-
+  
+  //Timer innan spelet startar, startas automatiskt när det är 4 spelare inloggade
   socket.on('startCountdownTimer', function () {
     if (countdownTimerIsStarted === false) {
       countdownTimerIsStarted = true;
@@ -213,13 +203,14 @@ io.on('connection', function (socket) {
     }
   });
 
+  //Inaktiverar + aktiverar spara-knappen hos alla spelare
   socket.on('disableSaveButtonClient', function(){
-    console.log('disableSaveButtonClient');
     io.emit('disableSaveButton');
   });
   
 });
 
+//Sparar ritade bilder till databasen
 app.post('/', function (req, res) {
   console.log('req.body: ', req.body);
 
@@ -237,12 +228,9 @@ app.post('/', function (req, res) {
   }
 });
 
-app.get('/', function (req, res) {
-  res.sendFile(path.resolve('public/build/index.html'));
-});
-
+//Hämtar alla sparade bilder 
 app.get('/saved_images', function (req, res) {
-  res.header('Access-Control-Allow-Origin', '*'); //Tillagt för att få bort cors
+  res.header('Access-Control-Allow-Origin', '*'); 
 
   req.app.locals.db
     .collection('saved_images')
@@ -253,13 +241,13 @@ app.get('/saved_images', function (req, res) {
     });
 });
 
+//Hämtar en slumpmässig bild från databasen, som spelare ska efterlikna
 app.get('/default', function (req, res) {
-  res.header('Access-Control-Allow-Origin', '*'); //Tillagt för att få bort cors
+  res.header('Access-Control-Allow-Origin', '*'); 
 
   req.app.locals.db
     .collection('default_images')
-    .aggregate([{ $sample: { size: 1 } }])
-    //.find({ObjectId("6310a7b5ecd365c870d5d63a")})
+    .aggregate([{ $sample: { size: 1 } }])    
     .toArray()
     .then((result) => {
       res.json(result);
