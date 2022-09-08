@@ -1,11 +1,13 @@
 # gridpainter-backend
 
 
-Ett spel där fyra spelare ska rita en bild så lik som möjligt som en slumpad bild. Spelarna kan även chatta med varandra.
+Ett spel där fyra spelare på tid ska rita av en slumpad bild. Spelarna kan även chatta med varandra.
 
 ------------------------------
 
-Projektet är byggt i Node.js med socket.io.
+Projektet är byggt i Node.js med express och socket.io.
+
+Starta projektet med npm i samt nodemon start
 
 ------------------------------
 
@@ -18,16 +20,18 @@ Frontend repository: https://github.com/tovehydmark/gridpainter-frontend.git
 
 Skapat av:
 
-Alexander Rusiecki
+Dahling Malcom 
 
-Jenny Höök
+Hydmark Tove
 
-Kirill Missarov
+Höök Jenny
 
-Malcom Dahling
+Missarov Kirill 
 
-Nathalie Persson
+PerssonNathalie
 
-Nikola Salamurovic
+Rusiecki Alexander 
 
-Tove Hydmark
+Salamurovic Nikola 
+
+ 
