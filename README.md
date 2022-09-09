@@ -20,7 +20,7 @@ Frontend repository: https://github.com/tovehydmark/gridpainter-frontend.git
 
 Skapat av:
 
-Dahling Malcom 
+Dahling Malcolm 
 
 Hydmark Tove
 
